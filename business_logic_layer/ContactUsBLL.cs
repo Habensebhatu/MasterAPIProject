@@ -4,8 +4,6 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-
-
 namespace business_logic_layer
 {
     public class ContactUsBLL : IEmailContactUs

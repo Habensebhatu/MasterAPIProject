@@ -1,6 +1,5 @@
 ﻿using Data_layer.Context;
 using Data_layer.Context.Data;
-using Data_layer.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data_layer

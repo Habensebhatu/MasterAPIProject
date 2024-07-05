@@ -1,8 +1,7 @@
-﻿using System;
-using business_logic_layer.ViewModel;
+﻿using business_logic_layer.ViewModel;
 using Data_layer;
 using Data_layer.Context;
-using Microsoft.EntityFrameworkCore.Internal;
+
 
 namespace business_logic_layer
 {

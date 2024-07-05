@@ -82,7 +82,7 @@ namespace business_logic_layer
             {
                 OrderId = orderFromDb.OrderId,
                 UserId = orderFromDb.UserId,
-                CustomerEmail = orderFromDb.User.Email, // Assuming your Order's Customer object has an Email property
+                CustomerEmail = orderFromDb.User.Email, 
                 recipientName = orderFromDb.User.FirstName,
                 city = orderFromDb.User.Address.Residence,
                 Street = orderFromDb.User.Address.Street,

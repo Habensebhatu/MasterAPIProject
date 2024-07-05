@@ -103,7 +103,3 @@ namespace business_logic_layer
 
 
 
-
-
-//Console.WriteLine($"ContentRootPath: {_environment.ContentRootPath}");
-//Console.WriteLine($"WebRootPath: {_environment.WebRootPath}");
