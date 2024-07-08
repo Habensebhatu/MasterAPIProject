@@ -33,12 +33,12 @@ public class DbContextFactory : IDbContextFactory
             case "Aitmaten":
                 var optionsBuilderAitmaten = new DbContextOptionsBuilder<MyDbContext>();
                 optionsBuilderAitmaten.UseSqlServer(connectionString);
-                return new MyDbContext(optionsBuilderAitmaten.Options);
+                return new MyDbContext(optionsBuilderAitmaten.Options, _configuration);
 
             case "SofaniMarket":
                 var optionsBuilderSofani = new DbContextOptionsBuilder<MyDbcontextSofani>();
                 optionsBuilderSofani.UseSqlServer(connectionString);
-                return new MyDbcontextSofani(optionsBuilderSofani.Options);
+                return new MyDbcontextSofani(optionsBuilderSofani.Options,_configuration);
 
             default:
                 throw new ArgumentException("Invalid connection string name", nameof(connectionStringName));

@@ -3,23 +3,22 @@ using Azure.Storage.Blobs;
 using business_logic_layer;
 using business_logic_layer.ViewModel;
 using Data_layer.Context.Data;
-using Data_layer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Stripe;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//builder.Services.AddDbContext<MyDbContext>(options =>
-//        options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")));
 
+builder.Services.AddDbContext<MyDbcontextSofani>((serviceProvider, options) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var connStr = configuration.GetConnectionString("Aitmaten");
+    options.UseSqlServer(connStr);
+});
 
-builder.Services.AddDbContext<MyDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("Aitmaten")));
-
-builder.Services.AddCors(p => p.AddPolicy("corspolicy", build => {
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
+{
 
     build.AllowAnyOrigin()
     .AllowAnyMethod().AllowAnyHeader();
@@ -40,13 +39,17 @@ builder.Services.AddAuthentication(configureOptions: options =>
 
 }).AddJwtBearer(options =>
 {
+    var token = builder.Configuration["AppSettings:Token"];
+    if (string.IsNullOrEmpty(token))
+    {
+        throw new InvalidOperationException("Token is not configured.");
+    }
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         ValidateAudience = false,
         ValidateIssuer = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration.GetSection("AppSettings:Token").Value!))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token))
     };
 });
 
@@ -61,7 +64,7 @@ builder.Services.AddTransient<IEmailServiceAit, EmailServiceAit>();
 builder.Services.AddTransient<IEmailContactUs, ContactUsBLL>();
 builder.Services.AddTransient<ISendRegistration, SendRegistration>();
 builder.Services.Configure<TemplateConfig>(builder.Configuration.GetSection("TemplatePaths"));
-builder.Services.AddSingleton(builder.Configuration); 
+builder.Services.AddSingleton(builder.Configuration);
 
 builder.Services.ConfigureSwaggerGen(setup =>
 {
@@ -88,3 +91,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+
+
+
+//// Add services to the container.
+////builder.Services.AddDbContext<MyDbContext>(options =>
+////        options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")));
+////configuration["StripeSettings:EndpointSecret"];
+
+//builder.Services.AddDbContext<MyDbContext>(options =>
+//        options.UseSqlServer(builder.Configuration.GetConnectionString("Aitmaten")));

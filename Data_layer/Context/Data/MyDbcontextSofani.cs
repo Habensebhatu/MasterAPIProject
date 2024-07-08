@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data_layer.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Data_layer.Context.Data
 {
     public class MyDbcontextSofani : DbContext
     {
-
+        private readonly IConfiguration _configuration;
         public DbSet<Category> Category { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }
         public DbSet<Order> Order { get; set; }
@@ -18,22 +20,27 @@ namespace Data_layer.Context.Data
         public DbSet<ProductWishlist> ProductWishlist { get; set; }
 
 
-        public MyDbcontextSofani()
+        public MyDbcontextSofani(IConfiguration configuration)
         {
+            _configuration = configuration;
+        }
+
+        public MyDbcontextSofani(DbContextOptions<MyDbcontextSofani> options, IConfiguration configuration)
+            : base(options)
+        {
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:webshopserverf.database.windows.net,1433;Initial Catalog=webshopSofani;Persist Security Info=False;User ID=Filimon;Password=Icatt@06;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                var connectionString = _configuration.GetConnectionString("SofaniMarket");
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 
-        public MyDbcontextSofani(DbContextOptions<MyDbcontextSofani> options) : base(options)
-        {
-        }
-
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRegistrationEntityModel>().OwnsOne(u => u.Address);

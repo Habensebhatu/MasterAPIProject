@@ -1,12 +1,14 @@
-﻿using System;
-using Data_layer.Context;
+﻿using Data_layer.Context;
 using Data_layer.Context.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Data_layer.Data
 {
     public class MyDbContext : DbContext
     {
+        private readonly IConfiguration _configuration;
         public DbSet<Category> Category { get; set; }
         public DbSet<OrderDetailEntityAit> OrderDetailAit { get; set; }
         public DbSet<OrderEntiyAit> OrderAit { get; set; }
@@ -19,21 +21,26 @@ namespace Data_layer.Data
         public DbSet<WishlistEntityModel> WishlistEntityModel { get; set; }
         public DbSet<ProductWishlist> ProductWishlist { get; set; }
 
-      
 
-        public MyDbContext()
+
+        public MyDbContext(IConfiguration configuration)
         {
-
+            _configuration = configuration;
         }
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+
+        public MyDbContext(DbContextOptions<MyDbContext> options, IConfiguration configuration)
+            : base(options)
         {
-
+            _configuration = configuration;
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+          
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:webshopserverf.database.windows.net,1433;Initial Catalog=webshopAitmaten;Persist Security Info=False;User ID=Filimon;Password=Icatt@06;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                var connectionString = _configuration.GetConnectionString("Aitmaten");
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 
@@ -84,7 +91,7 @@ namespace Data_layer.Data
               .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<CustomerEntityModel>()
-        .HasKey(c => c.CustomerId);
+            .HasKey(c => c.CustomerId);
         }
     }
 }
