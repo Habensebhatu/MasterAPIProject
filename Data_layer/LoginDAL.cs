@@ -1,10 +1,4 @@
-﻿//using System;
-//using Data_layer.Context;
-//using Data_layer.Data;
-//using Microsoft.EntityFrameworkCore;
-
-
-using System;
+﻿using System;
 using Data_layer.Context;
 using Data_layer.Data;
 using Microsoft.EntityFrameworkCore;
