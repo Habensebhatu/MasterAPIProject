@@ -156,7 +156,7 @@ namespace API.Controllers
         }
 
 
-        //const string endpointSecret = _configuration["StripeSettings:EndpointSecret"];
+       
 
 
         [HttpPost("webhook")]
