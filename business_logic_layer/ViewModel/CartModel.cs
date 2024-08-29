@@ -4,7 +4,7 @@ namespace business_logic_layer.ViewModel
     public class CartModel
     {
         public Guid productId { get; set; }
-        public Guid cartId { get; set; }
+        public Guid CartId { get; set; }
         public string Title { get; set; }
         public decimal Price { get; set; }
         public decimal? Kilo { get; set; }

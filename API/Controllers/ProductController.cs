@@ -15,7 +15,7 @@ namespace API.Controllers
 
         public ProductController(IDbContextFactory dbContextFactory, IConfiguration configuration)
         {
-            _productBLL = new ProductBLL(dbContextFactory, configuration);
+            _productBLL = new ProductBLL(dbContextFactory);
         }
 
         [HttpPost("AddProduct")]

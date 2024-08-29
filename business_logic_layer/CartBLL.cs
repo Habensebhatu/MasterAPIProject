@@ -23,6 +23,7 @@ namespace business_logic_layer
 
             CartEnityModel cartFormat = new CartEnityModel()
             {
+               
                 productId = cart.productId,
                 Title = cart.Title,
                 Price = cart.Price,
@@ -32,8 +33,9 @@ namespace business_logic_layer
                 Quantity = cart.Quantity,
                 CategoryName = cart.CategoryName,
                 SessionId = sessionId,
-                UserId = userId
-            };
+                UserId = userId,
+               
+        };
 
             await cartDAL.AddProduct(cartFormat);
             return cart;
@@ -56,7 +58,7 @@ namespace business_logic_layer
             return cartEntities.Select(item => new CartModel
             {
                 productId = item.productId,
-                cartId = item.cartId,
+                CartId = item.cartId,
                 Title = item.Title,
                 Price = item.Price,
                 Description = item.Description,
