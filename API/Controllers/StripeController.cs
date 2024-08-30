@@ -21,7 +21,7 @@ namespace API.Controllers
 
             StripeConfiguration.ApiKey = configuration["StripeSettings:ApiKey"];
             _orderBLL = new OrderBLL(dbContextFactory);
-            _productBLL = new ProductBLL(dbContextFactory);
+            _productBLL = new ProductBLL(dbContextFactory, configuration);
             _customer = new customerBLL(dbContextFactory);
             _emailService = emailService;
             _endpointSecret = configuration["StripeSettings:EndpointSecret"];
